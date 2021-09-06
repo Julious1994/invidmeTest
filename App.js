@@ -18,8 +18,8 @@ const list = [
   {title: 'Jack Rich', name: 'Jack rich', other: 'chains'},
 ];
 
-function App() {
-  const renderItem = ({item}) => (
+class App extends React.Component {
+  renderItem = ({item}) => (
     <View style={styles.userProfileItem}>
       <View style={styles.userPic}>
         <Image
@@ -57,7 +57,7 @@ function App() {
     </View>
   );
 
-  const renderAccountInfo = () => {
+  renderAccountInfo = () => {
     return (
       <View style={styles.accountInfoContainer}>
         <View style={styles.userPic}>
@@ -98,53 +98,55 @@ function App() {
     );
   };
 
-  return (
-    <ImageBackground
-      style={styles.container}
-      resizeMode="stretch"
-      source={imageMapper.profileBackground.source}>
-      <SafeAreaView style={{flex: 1}}>
-        <View style={styles.content}>
-          <View style={styles.headerContainer}>
-            <View style={styles.leftHeader}>
-              <TouchableOpacity style={styles.infoButton}>
-                <Image
-                  source={imageMapper.info.source}
-                  style={styles.accountActionIcon}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
+  render() {
+    return (
+      <ImageBackground
+        style={styles.container}
+        resizeMode="stretch"
+        source={imageMapper.profileBackground.source}>
+        <SafeAreaView style={{flex: 1}}>
+          <View style={styles.content}>
+            <View style={styles.headerContainer}>
+              <View style={styles.leftHeader}>
+                <TouchableOpacity style={styles.infoButton}>
+                  <Image
+                    source={imageMapper.info.source}
+                    style={styles.accountActionIcon}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.middleHeader}>
+                <Text style={styles.headerTitle}>PROFILE</Text>
+              </View>
+              <View style={styles.rightHeader}>
+                <TouchableOpacity style={styles.rightHeaderAction}>
+                  <Image
+                    style={styles.iconImage}
+                    source={imageMapper.search.source}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.rightHeaderAction}>
+                  <Image
+                    style={styles.iconImage}
+                    source={imageMapper.settings.source}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.middleHeader}>
-              <Text style={styles.headerTitle}>PROFILE</Text>
-            </View>
-            <View style={styles.rightHeader}>
-              <TouchableOpacity style={styles.rightHeaderAction}>
-                <Image
-                  style={styles.iconImage}
-                  source={imageMapper.search.source}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.rightHeaderAction}>
-                <Image
-                  style={styles.iconImage}
-                  source={imageMapper.settings.source}
-                />
-              </TouchableOpacity>
+            {this.renderAccountInfo()}
+            <View>
+              <FlatList
+                data={list}
+                keyExtractor={(item, i) => `${i}`}
+                renderItem={this.renderItem}
+              />
             </View>
           </View>
-          {renderAccountInfo()}
-          <View>
-            <FlatList
-              data={list}
-              keyExtractor={(item, i) => `${i}`}
-              renderItem={renderItem}
-            />
-          </View>
-        </View>
-      </SafeAreaView>
-    </ImageBackground>
-  );
+        </SafeAreaView>
+      </ImageBackground>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
